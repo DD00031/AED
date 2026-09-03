@@ -3,7 +3,7 @@
 ## Initialising
 To start run the following code
 '''
-git clone link && cd AED
+git clone https://github.com/DD00031/AED && cd AED
 '''
 
 ## Project Structure
