@@ -35,6 +35,17 @@ x: Beweging stage vanaf 0
 - If functions have inputs list those inputs (function and type) just below the definiton of the function.
 
 ## Notes 
+### Pin layout of the CNC-shield
+The CNC-shield has 4 different axes that we can control: X, Y, Z and A. Below is a short overview of the pin layout corresponding with each axis.
+| Axis | Step pin | Dir pin |
+| ---- | -------- | ------- |
+| X    | 2        | 5       |
+| Y    | 3        | 6       |
+| Z    | 4        | 7       |
+| A    | A4       | A3      |
+
+All the pins should be set to OUTPUT using pinMode. The direction of which the plug with blue, green, red and black wire does not matter, as long as it is consistent for all the axes. 
+
 ### About the pins of the Stepper driver
 The test code defines the following variables:
 ```c++
