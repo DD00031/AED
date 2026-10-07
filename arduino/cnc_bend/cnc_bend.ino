@@ -2,12 +2,14 @@
 
 void setup() {
   Serial.begin(9600);
-  blinkSetup();
+  initTransport();
+  initTorsion();
+  initBending();
 }
 
 void loop() {
   Serial.println("Blink");
   delay(1000);
-  blinkLoop();
+  Serial.println("Blonk");
   delay(1000);
 }
