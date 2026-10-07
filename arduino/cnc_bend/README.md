@@ -62,3 +62,14 @@ digitalWrite(DirX, LOW);
 ```
 
 Also make sure to set the pinMode of the Dir and Step variables to OUTPUT, not INPUT.
+### About the usage of the 4th axis (A)
+The cnc-shield uses the analog pins to allow power users to use it as a separate 4th axis in their code. We can control them by declaring the variables as follows:
+```c++
+const int StepA = A4;
+const int DirA  = A3;
+
+void setup() {
+	  pinMode(StepA, OUTPUT);
+	  pinMode(DirA, OUTPUT);
+}
+```
