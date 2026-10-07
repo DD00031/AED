@@ -33,3 +33,32 @@ x: Beweging stage vanaf 0
 - Keep the code clean and separated. Diffent modules go in different files and are linked to the main file.
 - Provide enough comments so others can understand what your code does without having to read the full code. 
 - If functions have inputs list those inputs (function and type) just below the definiton of the function.
+
+## Notes 
+### About the pins of the Stepper driver
+The test code defines the following variables:
+```c++
+const int StepX = 2;
+const int DirX = 5;
+const int StepY = 3;
+const int DirY = 6;
+const int StepZ = 4;
+const int DirZ = 7;
+```
+
+The difference between StepX and DirX is as follows (written by Claude):
+- STEP says when to move. Every time the pin goes from LOW to HIGH, the motor takes one step. The motor doesn't know how far to go, so you send a pulse for every step you want. 200 pulses is typically one full revolution (for a 1.8° motor at full-step mode).
+- DIR says which way to move. Set it HIGH and the motor turns one way, set it LOW and it turns the other way. The driver reads this pin when the step pulse arrives, so you set it before stepping.
+
+So in short:
+- Step is for how much steps.
+- Dir is for which direction.
+
+The direction can be set as follows:
+```c++
+digitalWrite(DirX, HIGH);
+// or 
+digitalWrite(DirX, LOW);
+```
+
+Also make sure to set the pinMode of the Dir and Step variables to OUTPUT, not INPUT.
