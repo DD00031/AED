@@ -5,11 +5,13 @@ void setup() {
   initTransport();
   initTorsion();
   initBending();
+  initStage();
+
+  Serial.println("Ready.");
+//  transportStrip(100);
+//  Serial.println("Done.");
 }
 
 void loop() {
-  Serial.println("Blink");
-  delay(1000);
-  Serial.println("Blonk");
-  delay(1000);
+  handleSerialCommands();
 }
