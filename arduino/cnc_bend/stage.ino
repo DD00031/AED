@@ -15,9 +15,10 @@ void moveStage(float stageDist){
   else {
     stageDirection = true;
   }
-  
-  steps = 5;
-  moveStepper(steps, transport, stageDirection);
+
+  float stageAngle = (stageDist * 360) / pitch;
+  steps = n_steps(stageAngle);
+  moveStepper(steps, stage, stageDirection);
 
   Serial.print("Moved stage ");
   Serial.print(stageDist);

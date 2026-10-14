@@ -6,6 +6,48 @@ Final code for arduino.
 Contains all global constant and state variables. Also used for configuring order of operations.
 - cnc_bend.ino
 Main code file, used for bringing the separate module code files together.
+- buiging.ino
+Bending module (Buiging, Z axis). Contains `initBending()` (sets up the pins), `bendPlate(angle)` (bends the plate by an angle in degrees, corrected for the gearbox, negative = other direction) and `standardBend()` (one full bend: feed the plate, move the stage in, bend 90°, move the stage back and return the bender).
+- doorvoer.ino
+Transport module (Doorvoer, X axis). Contains `initTransport()` and `transportStrip(d)`, which feeds the strip d mm through the machine using the wheel radius (negative = backwards).
+- torsie.ino
+Torsion module (Torsie, Y axis). Contains `initTorsion()` and `torsionPlate(angle)`, which twists the plate by an angle in degrees, corrected for the gearbox (negative = other direction).
+- stage.ino
+Stage module (A axis, lead screw). Contains `initStage()` and `moveStage(dist)`, which moves the stage dist mm using the screw pitch (negative = backwards).
+- helpers.ino
+Calculation helpers: `angle(r, d)` (angle needed to move a distance over a wheel), `n_steps(angle)` (steps needed for an angle), `angleGearReduction(angle, reduction)` (motor angle needed for an angle after the gearbox) and `d_circ(r)` (circumference). Also contains `waitForCommand()`, which is currently unused.
+- lib.ino
+Shared low-level functions: `moveStepper()` (sends step pulses, only works when armed), `arm()` / `disarm()` / `initArm()` (enable or disable all drivers through the enable pin) and the serial monitor control (`handleSerialCommands()`, `isNumber()`). Available commands: `arm`, `disarm`, `start`, `transport <mm>`, `bend <deg>`, `torsion <deg>`, `stage <mm>`.
+- main.ino
+Contains `main_function()`, the full automatic sequence that runs when you type `start`.
+
+## Usage
+Upload the sketch, open the Serial Monitor (baud rate 9600, line ending "Newline" or "Both NL & CR") and type a command followed by Enter. Commands are not case sensitive. Numbers can be negative to move in the other direction.
+
+The drivers start **disarmed**, so type `arm` before anything else. After a reset or re-upload, the board is disarmed again.
+
+| Command | Description |
+| ------- | ----------- |
+| `arm` | Enable the drivers (motors hold position and can move) |
+| `disarm` | Disable the drivers (motors are free to turn by hand and no longer hold position) |
+| `start` | Run the full automatic sequence (`main_function()`) |
+| `transport <mm>` | Feed the strip by the given distance in mm |
+| `stage <mm>` | Move the stage by the given distance in mm |
+| `bend <deg>` | Bend the plate by the given angle in degrees |
+| `torsion <deg>` | Twist the plate by the given angle in degrees |
+
+Examples:
+```
+arm
+transport 50
+bend -90
+disarm
+```
+
+Notes:
+- A move cannot be interrupted once it has started. Disarm after it finishes, or cut the 12-36V power for an emergency stop.
+- Opening the Serial Monitor resets the board, so it is always disarmed after connecting.
+- To add a command, add an `else if` block in `handleSerialCommands()` in `lib.ino` and add it to this table.
 
 ## Variables (Dutch)
 (Keep in mind that these are prone to changing)

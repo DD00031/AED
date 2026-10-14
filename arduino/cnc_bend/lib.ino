@@ -119,6 +119,6 @@ void handleSerialCommands() {
     disarm();
   }
   else {
-    Serial.println("Unknown command. Use: start, transport <mm>, bend <deg>, torsion <deg>, stage <mm>");
+    Serial.println("Unknown command. Use: start, arm, disarm, transport <mm>, bend <deg>, torsion <deg>, stage <mm>");
   }
 }

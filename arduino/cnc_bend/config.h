@@ -35,6 +35,8 @@ const int bendStageDist = 50; //mm
 const int torsionGearReduction = 8;
 const int torsionTransportDist = 50; //mm
 const int torsionStageDist = 50; //mm
+// Stage
+const int pitch = 8; //mm
 
 // Other
 bool armed = false;
