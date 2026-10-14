@@ -2,24 +2,17 @@
 Final code for arduino.
 
 ## List of files + Description
-- config.h
-Contains all global constant and state variables. Also used for configuring order of operations.
-- cnc_bend.ino
-Main code file, used for bringing the separate module code files together.
-- buiging.ino
-Bending module (Buiging, Z axis). Contains `initBending()` (sets up the pins), `bendPlate(angle)` (bends the plate by an angle in degrees, corrected for the gearbox, negative = other direction) and `standardBend()` (one full bend: feed the plate, move the stage in, bend 90°, move the stage back and return the bender).
-- doorvoer.ino
-Transport module (Doorvoer, X axis). Contains `initTransport()` and `transportStrip(d)`, which feeds the strip d mm through the machine using the wheel radius (negative = backwards).
-- torsie.ino
-Torsion module (Torsie, Y axis). Contains `initTorsion()` and `torsionPlate(angle)`, which twists the plate by an angle in degrees, corrected for the gearbox (negative = other direction).
-- stage.ino
-Stage module (A axis, lead screw). Contains `initStage()` and `moveStage(dist)`, which moves the stage dist mm using the screw pitch (negative = backwards).
-- helpers.ino
-Calculation helpers: `angle(r, d)` (angle needed to move a distance over a wheel), `n_steps(angle)` (steps needed for an angle), `angleGearReduction(angle, reduction)` (motor angle needed for an angle after the gearbox) and `d_circ(r)` (circumference). Also contains `waitForCommand()`, which is currently unused.
-- lib.ino
-Shared low-level functions: `moveStepper()` (sends step pulses, only works when armed), `arm()` / `disarm()` / `initArm()` (enable or disable all drivers through the enable pin) and the serial monitor control (`handleSerialCommands()`, `isNumber()`). Available commands: `arm`, `disarm`, `start`, `transport <mm>`, `bend <deg>`, `torsion <deg>`, `stage <mm>`.
-- main.ino
-Contains `main_function()`, the full automatic sequence that runs when you type `start`.
+| File | Module / axis | Description |
+| ---- | ------------- | ----------- |
+| `cnc_bend.ino` | Main | Main code file, used for bringing the separate module code files together. Contains `setup()` and `loop()`. |
+| `config.h` | Config | Contains all global constant and state variables. Also used for configuring order of operations. |
+| `main.ino` | Main sequence | Contains `main_function()`, the full automatic sequence that runs when you type `start`. |
+| `doorvoer.ino` | Transport (X) | `initTransport()` sets up the pins. `transportStrip(d)` feeds the strip d mm through the machine using the wheel radius (negative = backwards). |
+| `torsie.ino` | Torsion (Y) | `initTorsion()` sets up the pins. `torsionPlate(angle)` twists the plate by an angle in degrees, corrected for the gearbox (negative = other direction). |
+| `buiging.ino` | Bending (Z) | `initBending()` sets up the pins. `bendPlate(angle)` bends the plate by an angle in degrees, corrected for the gearbox (negative = other direction). `standardBend()` does one full bend: feed the plate, move the stage in, bend 90°, move the stage back and return the bender. |
+| `stage.ino` | Stage (A) | `initStage()` sets up the pins. `moveStage(dist)` moves the stage dist mm using the screw pitch (negative = backwards). |
+| `helpers.ino` | Calculations | `angle(r, d)` gives the angle needed to move a distance over a wheel. `n_steps(angle)` gives the steps needed for an angle. `angleGearReduction(angle, reduction)` gives the motor angle needed for an angle after the gearbox. `d_circ(r)` gives the circumference. Also contains `waitForCommand()`, which is currently unused. |
+| `lib.ino` | Shared functions | `moveStepper()` sends the step pulses (only works when armed). `arm()`, `disarm()` and `initArm()` enable or disable all drivers through the enable pin. `handleSerialCommands()` and `isNumber()` handle the serial monitor control. |
 
 ## Usage
 Upload the sketch, open the Serial Monitor (baud rate 9600, line ending "Newline" or "Both NL & CR") and type a command followed by Enter. Commands are not case sensitive. Numbers can be negative to move in the other direction.
