@@ -42,22 +42,52 @@ Notes:
 - Opening the Serial Monitor resets the board, so it is always disarmed after connecting.
 - To add a command, add an `else if` block in `handleSerialCommands()` in `lib.ino` and add it to this table.
 
-## Variables (Dutch)
-(Keep in mind that these are prone to changing)
-### Constant Variables
-b1: Afstand die de stage moet bewegen om de plaat in de buigmodule te krijgen
-b2: Afstand die de plaat doorgevoerd moet worden voor een buiging
-b3: Hoek die de wipe bender maakt om de plaat te buigen.
+## Variables
+(Keep in mind that these are prone to changing.)
 
-t1: Afstand die de stage moet bewegen om de plaat in de houder te krijgen
-t2: Afstand die de plaat doorgevoerd moet worden voor tordering
-t3: Hoek die torsiemodule maakt om de plaat te torderen
+### Constants (config.h)
+| Variable in code | Value | Unit | Description |
+| ---------------- | ----- | ---- | ----------- |
+| `rWheel` | 43 | mm | Radius of the transport wheel |
+| `bendStageDist` | 50 | mm | Distance the stage must move to get the plate into the bending module |
+| `bendTransportDist` | 50 | mm | Distance the plate must be fed through for one bend |
+| - | 90 | deg | Angle the wipe bender makes to bend the plate (currently hardcoded in `standardBend()`) |
+| `bendingGearReduction` | 5 | - | Gearbox reduction of the bending module (1 to 5) |
+| `torsionStageDist` | 50 | mm | Distance the stage must move to get the plate into the holder |
+| `torsionTransportDist` | 50 | mm | Distance the plate must be fed through for torsion |
+| - |  | deg | Angle the torsion module makes to twist the plate (not in the code yet) |
+| `torsionGearReduction` | 8 | - | Gearbox reduction of the torsion module (1 to 8) |
+| `pitch` | 8 | mm | Distance the stage travels per revolution of the lead screw |
 
-b2 = t2 (vooralsnog)
+For now `bendTransportDist` = `torsionTransportDist`.
 
-### State Variabels:
-x: Beweging stage vanaf 0
-α: Hoek torsiemodule
+### Pins (config.h)
+| Variable | Pin | Module (axis) | Description |
+| -------- | --- | ------------- | ----------- |
+| `transportStep` | 2 | Transport (X) | Step pin |
+| `transportDir` | 5 | Transport (X) | Direction pin |
+| `torsionStep` | 3 | Torsion (Y) | Step pin |
+| `torsionDir` | 6 | Torsion (Y) | Direction pin |
+| `bendingStep` | 4 | Bending (Z) | Step pin |
+| `bendingDir` | 7 | Bending (Z) | Direction pin |
+| `stageStep` | A4 | Stage (A) | Step pin |
+| `stageDir` | A3 | Stage (A) | Direction pin |
+| `enablePin` | 8 | All drivers | Enable pin shared by all drivers (LOW = armed, HIGH = disarmed) |
+| `transport`, `torsion`, `bending`, `stage` |  |  | Arrays `{stepPin, dirPin}` per module, passed to `moveStepper()` |
+
+### Values hardcoded in the code (these do not change)
+| Value | Where | Description |
+| ----- | ----- | ----------- |
+| 1.8 deg | `n_steps()` in helpers.ino | Angle of one motor step (full-step mode, no microstepping) |
+| 500 + 500 µs | `moveStepper()` in lib.ino | Duration of the HIGH and LOW part of one step pulse, so 1000 steps per second |
+| 9600 | `setup()` in cnc_bend.ino | Baud rate of the Serial Monitor |
+
+### State variables
+| Name in notes | Variable in code | Description |
+| ------------- | ---------------- | ----------- |
+|  | `armed` | Whether the drivers are enabled (`true`) or disabled (`false`). Starts as `false`. |
+| x |  | Movement of the stage from 0 (not tracked in the code yet) |
+| α |  | Angle of the torsion module (not tracked in the code yet) |
 
 ## Operation conventions (Dutch)
 - Elke bewerking begint op x = 0 en α = 0
