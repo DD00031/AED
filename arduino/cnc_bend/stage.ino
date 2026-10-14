@@ -6,6 +6,7 @@ void initStage(){
 }
 
 void moveStage(float stageDist){
+  if (!checkArmed()) return;
   int steps;
   bool stageDirection;
   if (stageDist < 0){

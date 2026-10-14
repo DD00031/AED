@@ -5,8 +5,9 @@ void initBending(){
   pinMode(bendingDir, OUTPUT);
 }
 
-void bendPlate(int bendAngle){
-  int redBendingAngle;
+void bendPlate(float bendAngle){
+  if (!checkArmed()) return;
+  float redBendingAngle;
   int steps;
   bool bendingDirection;
 

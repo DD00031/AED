@@ -21,12 +21,21 @@ void initArm() {
   armed = false;
 }
 
+// Prints a message and returns false if the drivers are not armed
+bool checkArmed() {
+  if (!armed) {
+    Serial.println("Not armed! Type 'arm' first.");
+    return false;
+  }
+  return true;
+}
+
 // Move stepper
 // Input:
 //    steps: number of steps (-) (int)
 //    stepper: array met: [stepPin, dirPin] 
 //    dir: direction that the stepper should move (TRUE = forward, FALSE = backward) (bool)
-void moveStepper(int steps, int stepper[], bool dir){
+void moveStepper(int steps, const int stepper[], bool dir){
   if (!armed) {
     Serial.println("Not armed! Type 'arm' first.");
     return;
@@ -94,7 +103,7 @@ void handleSerialCommands() {
   }
   else if (cmd == "transport") {
     if (!isNumber(arg)) { Serial.println("Usage: transport <mm>"); return; }
-    transportStrip(arg.toInt());
+    transportStrip(arg.toFloat());
     Serial.println("Done.");
   }
   else if (cmd == "bend") {
@@ -117,6 +126,9 @@ void handleSerialCommands() {
   }
   else if (cmd == "disarm") {
     disarm();
+  }
+  else if (cmd == "status") {
+    getStatus();
   }
   else {
     Serial.println("Unknown command. Use: start, arm, disarm, transport <mm>, bend <deg>, torsion <deg>, stage <mm>");

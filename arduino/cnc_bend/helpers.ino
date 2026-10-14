@@ -10,10 +10,10 @@ float d_circ(int r){
 // Calculates angle needed to move provided distance
 // Inputs:
 //    r: radius (mm) (int)
-//    d: distance (mm) (int)
+//    d: distance (mm) (float)
 // Outputs:
 //    angle: angle needed to move distance (deg) (float)
-float angle(int r, int d){
+float angle(int r, float d){
   float circ;
   float dist_per_deg;
   float result; 
@@ -58,13 +58,22 @@ void waitForCommand(String word) {
 
 // Calculates angle needed with gearbox
 // Input: 
-//    angle: needed angle after gearbox (deg) (int)
+//    angle: needed angle after gearbox (deg) (float)
 //    reduction: gearbox reduction in 1 to x (-) (int)
 // Output:
-//    angle: angel needed before gearbox to get angle after gearbox (deg) (int)
-int angleGearReduction(int outAngle, int reduction){
-  int inAngle;
+//    angle: angel needed before gearbox to get angle after gearbox (deg) (float)
+float angleGearReduction(float outAngle, int reduction){
+  float inAngle;
   inAngle = outAngle * reduction;
   return inAngle;
+}
+
+void getStatus(){
+  if (armed == true){
+    Serial.println("Ready. Drivers armed.");
+  }
+  else {
+    Serial.println("Ready. Drivers disarmed.");
+  }
 }
 

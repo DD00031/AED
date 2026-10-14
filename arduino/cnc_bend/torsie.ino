@@ -5,8 +5,9 @@ void initTorsion(){
   pinMode(torsionDir, OUTPUT);
 }
 
-void torsionPlate(int torsionAngle){
-  int redTorsionAngle;
+void torsionPlate(float torsionAngle){
+  if (!checkArmed()) return;
+  float redTorsionAngle;
   int steps;
   bool torsionDirection;
 
@@ -25,4 +26,16 @@ void torsionPlate(int torsionAngle){
   Serial.print("Twisted plate ");
   Serial.print(torsionAngle);
   Serial.println("deg");
+}
+
+void standardTorsion(){
+  transportStrip(torsionTransportDist);
+  delay(500);
+  moveStage(torsionStageDist);
+  delay(500);
+  torsionPlate(90);
+  delay(500);
+  moveStage(-1 * torsionStageDist);
+  delay(200);
+  torsionPlate(-90);
 }

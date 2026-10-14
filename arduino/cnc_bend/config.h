@@ -7,7 +7,6 @@
 // Torsie = Y
 // Buiging = Z
 // Stage = A
-// (CHANGE THE PINS TO MATCH THE CORRECT ONES FROM THE README!)
 const int transportStep = 2;
 const int transportDir = 5;
 const int torsionStep = 3;

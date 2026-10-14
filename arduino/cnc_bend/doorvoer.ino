@@ -5,7 +5,8 @@ void initTransport(){
   pinMode(transportDir, OUTPUT);
 }
 
-void transportStrip(int d) {
+void transportStrip(float d) {
+  if (!checkArmed()) return;
   float a;
   int steps;
   bool transportDirection;
