@@ -89,6 +89,33 @@ For now `bendTransportDist` = `torsionTransportDist`.
 | x |  | Movement of the stage from 0 (not tracked in the code yet) |
 | α |  | Angle of the torsion module (not tracked in the code yet) |
 
+## Functions
+| Function | File | Inputs | Output | Description |
+| -------- | ---- | ------ | ------ | ----------- |
+| `setup()` | cnc_bend.ino |  |  | Runs once at power-up or reset. Starts the Serial Monitor, initializes the enable pin and all modules. The drivers start disarmed. |
+| `loop()` | cnc_bend.ino |  |  | Runs continuously. Calls `handleSerialCommands()` to check for typed commands. |
+| `main_function()` | main.ino |  |  | Runs the full automatic sequence (`start` command). Currently one `standardBend()`. |
+| `initTransport()` | doorvoer.ino |  |  | Sets the step and direction pin of the transport module to OUTPUT. |
+| `transportStrip(d)` | doorvoer.ino | `d`: distance (mm) (int), negative = backwards |  | Feeds the strip d mm through the machine. Converts the distance to a wheel angle and steps, then moves the stepper. |
+| `initTorsion()` | torsie.ino |  |  | Sets the step and direction pin of the torsion module to OUTPUT. |
+| `torsionPlate(torsionAngle)` | torsie.ino | `torsionAngle`: angle (deg) (int), negative = other direction |  | Twists the plate by the given angle, corrected for the gearbox. |
+| `initBending()` | buiging.ino |  |  | Sets the step and direction pin of the bending module to OUTPUT. |
+| `bendPlate(bendAngle)` | buiging.ino | `bendAngle`: angle (deg) (int), negative = other direction |  | Bends the plate by the given angle, corrected for the gearbox. |
+| `standardBend()` | buiging.ino |  |  | One full bend: feed the plate, move the stage in, bend 90°, move the stage back, return the bender (-90°). |
+| `initStage()` | stage.ino |  |  | Sets the step and direction pin of the stage to OUTPUT. |
+| `moveStage(stageDist)` | stage.ino | `stageDist`: distance (mm) (float), negative = backwards |  | Moves the stage the given distance using the screw pitch. |
+| `angle(r, d)` | helpers.ino | `r`: radius (mm) (int), `d`: distance (mm) (int) | angle (deg) (float) | Angle a wheel with radius r must turn to move a distance d. |
+| `n_steps(angle)` | helpers.ino | `angle`: angle (deg) (float) | steps (-) (int) | Number of steps needed for the given motor angle (1.8° per step, truncated). |
+| `angleGearReduction(outAngle, reduction)` | helpers.ino | `outAngle`: angle after the gearbox (deg) (int), `reduction`: gearbox reduction 1 to x (-) (int) | angle before the gearbox (deg) (int) | Motor angle needed to get a given angle after the gearbox. |
+| `d_circ(r)` | helpers.ino | `r`: radius (mm) (int) | circumference (mm) (float) | Circumference of a circle. |
+| `waitForCommand(word)` | helpers.ino | `word`: text to wait for (String) |  | Blocks until the given word is typed in the Serial Monitor. Currently unused. |
+| `moveStepper(steps, stepper, dir)` | lib.ino | `steps`: number of steps (-) (int), `stepper`: array `{stepPin, dirPin}` (int[]), `dir`: true = forward, false = backward (bool) |  | Sets the direction and sends the step pulses. Does nothing (and prints a message) when disarmed. |
+| `arm()` | lib.ino |  |  | Enables all drivers through the enable pin. |
+| `disarm()` | lib.ino |  |  | Disables all drivers through the enable pin. Motors are free to turn by hand. |
+| `initArm()` | lib.ino |  |  | Sets up the enable pin and starts disarmed. Call first in `setup()`. |
+| `handleSerialCommands()` | lib.ino |  |  | Reads a typed line from the Serial Monitor and runs the matching command. Call every loop. |
+| `isNumber(s)` | lib.ino | `s`: text (String) | true if s is a number (bool) | Checks whether the text is a valid number (digits, optional leading `-`, optional `.`). |
+
 ## Operation conventions (Dutch)
 - Elke bewerking begint op x = 0 en α = 0
 - Na elke bewerking beweegt de stage naar x = 0 en draait de torsie module naar α = 0
