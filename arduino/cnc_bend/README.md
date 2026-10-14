@@ -95,7 +95,7 @@ For now `bendTransportDist` = `torsionTransportDist`.
 - Voor elke bewerking wordt de plaat eerst doorgevoerd
 
 ## Code conventions
-- Keep the code clean and separated. Diffent modules go in different files and are linked to the main file.
+- Keep the code clean and separated. Different modules go in different files and are linked to the main file.
 - Provide enough comments so others can understand what your code does without having to read the full code. 
 - If functions have inputs list those inputs (function and type) just below the definiton of the function.
 - Try to provide useful information by printing to the serial monitor. (use `Serial.Println()`)
