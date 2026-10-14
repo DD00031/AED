@@ -26,5 +26,10 @@ const int stage[] = {stageStep, stageDir};
 // Transport
 const int rWheel = 43; //mm
 // Bending
-
+const int bendingGearReduction = 25;
+const int bendTransportDist = 50; //mm
+const int bendStageDist = 50; //mm
 // Torsion
+const int torsionGearReduction = 25;
+const int torsionTransportDist = 50; //mm
+const int torsionStageDist = 50; //mm

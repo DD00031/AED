@@ -56,3 +56,15 @@ void waitForCommand(String word) {
   }
 }
 
+// Calculates angle needed with gearbox
+// Input: 
+//    angle: needed angle after gearbox (deg) (int)
+//    reduction: gearbox reduction in 1 to x (-) (int)
+// Output:
+//    angle: angel needed before gearbox to get angle after gearbox (deg) (int)
+int angleGearReduction(int outAngle, int reduction){
+  int inAngle;
+  inAngle = outAngle * reduction;
+  return inAngle;
+}
+

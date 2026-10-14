@@ -88,6 +88,6 @@ void handleSerialCommands() {
     Serial.println("Done.");
   }
   else {
-    Serial.println("Unknown command. Use: start, transport <mm>, bend <deg>, torsion <deg>");
+    Serial.println("Unknown command. Use: start, transport <mm>, bend <deg>, torsion <deg>, stage <mm>");
   }
 }
