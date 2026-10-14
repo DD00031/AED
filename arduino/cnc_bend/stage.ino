@@ -21,5 +21,5 @@ void moveStage(float stageDist){
 
   Serial.print("Moved stage ");
   Serial.print(stageDist);
-  Serial.print("mm");
+  Serial.println("mm");
 }

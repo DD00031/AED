@@ -1,11 +1,37 @@
 #include "config.h"
 
+// Enables the drivers (motors hold position and can move)
+void arm() {
+  digitalWrite(enablePin, LOW);
+  armed = true;
+  Serial.println("Armed: drivers enabled.");
+}
+
+// Disables the drivers (motors are free to turn by hand, no holding torque)
+void disarm() {
+  digitalWrite(enablePin, HIGH);
+  armed = false;
+  Serial.println("Disarmed: drivers disabled.");
+}
+
+// Sets up the enable pin. Starts disarmed so nothing moves at power-up.
+void initArm() {
+  digitalWrite(enablePin, HIGH);
+  pinMode(enablePin, OUTPUT);
+  armed = false;
+}
+
 // Move stepper
 // Input:
 //    steps: number of steps (-) (int)
 //    stepper: array met: [stepPin, dirPin] 
 //    dir: direction that the stepper should move (TRUE = forward, FALSE = backward) (bool)
 void moveStepper(int steps, int stepper[], bool dir){
+  if (!armed) {
+    Serial.println("Not armed! Type 'arm' first.");
+    return;
+  }
+  
   digitalWrite(stepper[1], dir);
   delayMicroseconds(5);
 
@@ -65,7 +91,6 @@ void handleSerialCommands() {
 
   if (cmd == "start") {
     main_function();
-    Serial.println("Done.");
   }
   else if (cmd == "transport") {
     if (!isNumber(arg)) { Serial.println("Usage: transport <mm>"); return; }
@@ -86,6 +111,12 @@ void handleSerialCommands() {
     if (!isNumber(arg)) { Serial.println("Usage: stage <mm>"); return; }
     moveStage(arg.toFloat());
     Serial.println("Done.");
+  }
+  else if (cmd == "arm") {
+    arm();
+  }
+  else if (cmd == "disarm") {
+    disarm();
   }
   else {
     Serial.println("Unknown command. Use: start, transport <mm>, bend <deg>, torsion <deg>, stage <mm>");

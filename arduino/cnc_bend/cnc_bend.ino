@@ -2,14 +2,13 @@
 
 void setup() {
   Serial.begin(9600);
+  initArm();
   initTransport();
   initTorsion();
   initBending();
   initStage();
 
-  Serial.println("Ready.");
-//  transportStrip(100);
-//  Serial.println("Done.");
+  Serial.println("Ready. Drivers disarmed.");
 }
 
 void loop() {
