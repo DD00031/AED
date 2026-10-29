@@ -8,7 +8,9 @@ void main_function(){
   Serial.println("Starting main function");
   delay(500);
 
-  bool success = standardBend();
+  bendStrip(130);
+  delay(200);
+  bendStrip(-40);
 
   delay(500);
   if (success) {
@@ -16,5 +18,14 @@ void main_function(){
   }
   else {
     Serial.println("Main function ABORTED! Check the messages above.");
+  }
+}
+
+void test_function(){
+  for(int x = 0; x<100; x++){
+    transportStrip(50);
+    delay(500);
+    transportStrip(-50);
+    delay(500);
   }
 }

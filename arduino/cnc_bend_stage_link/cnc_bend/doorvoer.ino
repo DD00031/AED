@@ -11,12 +11,12 @@ void transportStrip(float d) {
   int steps;
   bool transportDirection;
 
-  if (d < 0){
+  if (d > 0){
     transportDirection = false;
-    d = abs(d);
   }
   else {
     transportDirection = true;
+    d = abs(d);
   }
 
   a = angle(rWheel, d);

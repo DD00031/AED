@@ -4,6 +4,8 @@
 
 // --- Config --- 
 
+int speed = 800;
+
 // --- Pin Declarations ---
 // Doorvoer = X
 // Torsie = Y
@@ -33,15 +35,15 @@ SoftwareSerial stageLink(stageLinkRx, stageLinkTx);
 
 // --- Dimension Declarations ---
 // Transport
-const int rWheel = 43; //mm
+const int rWheel = 19; //mm
 // Bending
-const int bendingGearReduction = 5;
+const int bendingGearReduction = 57;
 const int bendTransportDist = 50; //mm
 const int bendStageDist = 50; //mm
 // Torsion
-const int torsionGearReduction = 8;
-const int torsionTransportDist = 50; //mm
-const int torsionStageDist = 50; //mm
+const int torsionGearReduction = 25;
+const int torsionTransportDist = 65; //mm
+const int torsionStageDist = 40; //mm
 // Stage
 const int pitch = 8; //mm
 

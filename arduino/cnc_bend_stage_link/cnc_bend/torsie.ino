@@ -37,13 +37,16 @@ bool standardTorsion(){
     return false;
   }
   delay(500);
-  torsionPlate(90);
+  torsionPlate(120);
+  delay(500);
+  torsionPlate(-30);
   delay(500);
   if (!moveStage(-1 * torsionStageDist)) {
     Serial.println("Aborted: stage did not move back. Torsion module is still at 90 deg!");
     return false;
   }
-  delay(200);
+  delay(500);
   torsionPlate(-90);
+  delay(500);
   return true;
 }

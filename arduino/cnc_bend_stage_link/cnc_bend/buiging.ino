@@ -11,12 +11,12 @@ void bendPlate(float bendAngle){
   int steps;
   bool bendingDirection;
 
-  if (bendAngle < 0){
+  if (bendAngle > 0){
     bendingDirection = false;
-    bendAngle = abs(bendAngle);
   }
   else {
     bendingDirection = true;
+    bendAngle = abs(bendAngle);
   }
 
   redBendingAngle = angleGearReduction(bendAngle, bendingGearReduction);

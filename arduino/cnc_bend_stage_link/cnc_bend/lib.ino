@@ -58,9 +58,9 @@ void moveStepper(int steps, const int stepper[], bool dir){
 
   for(int x = 0; x<steps; x++) {
    digitalWrite(stepper[0],HIGH);
-   delayMicroseconds(500);
+   delayMicroseconds(speed);
    digitalWrite(stepper[0],LOW); 
-   delayMicroseconds(500);
+   delayMicroseconds(speed);
   }
 }
 
@@ -147,6 +147,9 @@ void handleSerialCommands() {
     if (stageSend("ping", "ok", stageReplyTimeout)) {
       Serial.println("Stage Arduino answered.");
     }
+  }
+  else if (cmd == "test_transport"){
+    test_function();
   }
   else {
     Serial.println("Unknown command. Use: start, arm, disarm, status, ping, transport <mm>, bend <deg>, torsion <deg>, stage <mm>");
